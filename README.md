@@ -54,7 +54,7 @@ I have decided to run a loop in the `launch.sh` script that will wait for the fi
 ### Wallpaper
 
 #### KDE/Plasma
-qdbus no longer exists on newer version of KDE/Plasma, so it now uses a dummy file to call qdbus6 instead.
+qdbus no longer exists on newer version of KDE/Plasma, so it now uses a dummy file to call dbus-send instead.
 
 It also modifies the scripts to correctly set the background color, and default back to "Scaled and Cropped" when no other mode was set.
 

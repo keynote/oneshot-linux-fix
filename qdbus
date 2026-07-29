@@ -1,4 +1,4 @@
-qdbus6 "$1" "$2" "$3" "$(echo $4 | awk '
+dbus-send --session --dest="$1" --type=method_call "$2" "$3" "$(echo $4 | awk '
 {
     if (match($0, /d\.writeConfig\("Color",\s*\[(.*?)\]\);/, arr) != 0) {
         gsub(/[",]/, "", arr[1]);

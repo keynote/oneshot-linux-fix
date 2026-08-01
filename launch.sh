@@ -33,6 +33,11 @@ elif [ "$XDG_SESSION_DESKTOP" = "GNOME" ]; then
 elif [ "$XDG_SESSION_DESKTOP" = "XFCE" ]; then
   xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitor0/workspace0 -R -r
   xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitor0/workspace0 -m | awk -f ./bg_xfce.awk &
+elif [ "$XDG_SESSION_DESKTOP" = "COSMIC" ]; then
+  if [ -f ./bg_cosmic.sh ] && [ ! -x ./bg_cosmic.sh ]; then
+    chmod +x ./bg_cosmic.sh
+  fi
+  ./bg_cosmic.sh &
 fi
 
 trap 'kill -s SIGTERM $(jobs -p)' EXIT SIGINT SIGTERM

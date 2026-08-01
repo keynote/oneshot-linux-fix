@@ -1,14 +1,14 @@
 dbus-send --session --dest="$1" --type=method_call "$2" "$3" "$(echo $4 | awk '
 {
-    if (match($0, /d\.writeConfig\("Color",\s*\[(.*?)\]\);/, arr) != 0) {
-        gsub(/[",]/, "", arr[1]);
-        split(arr[1], nums, /\s+/);
-        colorhash = sprintf("#%02X%02X%02X", nums[1], nums[2], nums[3]);
-        escaped_color = gensub(/([().\[\]\\?*+])/, "\\\\\\0", "g", arr[0]);
-        gsub(escaped_color, "d.writeConfig(\"Color\", \"" colorhash "\");", $0);
-    } else {
-        gsub(/dat\.color\.split\(","\)/, "dat.color", $0);
-        gsub(/{d\.writeConfig\("FillMode", dat\.mode\);}/, "{d.writeConfig(\"FillMode\", dat.mode);}else{d.writeConfig(\"FillMode\", 2);}", $0);
-    };
-    print $0;
+  if (match($0, /d\.writeConfig\("Color",\s*\[(.*?)\]\);/, arr) != 0) {
+    gsub(/[",]/, "", arr[1]);
+    split(arr[1], nums, /\s+/);
+    colorhash = sprintf("#%02X%02X%02X", nums[1], nums[2], nums[3]);
+    escaped_color = gensub(/([().\[\]\\?*+])/, "\\\\\\0", "g", arr[0]);
+    gsub(escaped_color, "d.writeConfig(\"Color\", \"" colorhash "\");", $0);
+  } else {
+    gsub(/dat\.color\.split\(","\)/, "dat.color", $0);
+    gsub(/{d\.writeConfig\("FillMode", dat\.mode\);}/, "{d.writeConfig(\"FillMode\", dat.mode);}else{d.writeConfig(\"FillMode\", 2);}", $0);
+  };
+  print $0;
 }')"

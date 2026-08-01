@@ -52,7 +52,6 @@ The game also later copies the journal to the save directory and creates a deskt
 I have decided to run a loop in the `launch.sh` script that will wait for the file, and replace it with a bash script that calls the journal in the game directory.
 
 ### Wallpaper
-
 #### KDE/Plasma
 qdbus no longer exists on newer version of KDE/Plasma, so it now uses a dummy file to call dbus-send instead.
 

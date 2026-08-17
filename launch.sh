@@ -6,6 +6,7 @@ export LD_PRELOAD=""
 
 script_dir="$(dirname "$(realpath $0)")"
 save_dir="$HOME/.local/share/Oneshot"
+documents_dir="$HOME/Documents"
 cd "$script_dir"
 
 # file is expected to be there
@@ -13,11 +14,17 @@ if [ ! -e ./_______.png ]; then
   cp ./images/icon.png ./_______.png
 fi
 
+if [[ "$XDG_SESSION_DESKTOP" =~ ^(Cinnamon|KDE|MATE|XFCE)$ ]]; then
+  journal_path="$save_dir/_______"
+else
+  journal_path="$documents_dir/Oneshot/_______"
+fi
+
 # copied journal is missing libraries, so replace it with a script that calls the original
 while true; do
-  if [ -e "$save_dir/_______" ] && [ "$(du -b "$save_dir/_______" | cut -f1)" -gt "100000" ]; then
-    printf '#!/bin/bash\n%s' "$script_dir/_______" > "$save_dir/_______"
-    chmod +x "$save_dir/_______"
+  if [ -e "$journal_path" ] && [ "$(du -b "$journal_path" | cut -f1)" -gt "100000" ]; then
+    printf '#!/bin/bash\n%s' "$script_dir/_______" > "$journal_path"
+    chmod +x "$journal_path"
   fi
   sleep 5
 done &

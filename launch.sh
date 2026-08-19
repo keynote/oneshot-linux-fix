@@ -14,7 +14,7 @@ if [ ! -e ./_______.png ]; then
   cp ./images/icon.png ./_______.png
 fi
 
-if [[ "$XDG_SESSION_DESKTOP" =~ ^(Cinnamon|KDE|MATE|XFCE)$ ]]; then
+if [[ "$XDG_CURRENT_DESKTOP" =~ (Cinnamon|KDE|MATE|XFCE) ]]; then
   journal_path="$save_dir/_______"
 else
   journal_path="$documents_dir/Oneshot/_______"
@@ -30,14 +30,14 @@ while true; do
 done &
 
 # background fixes
-if [ "$XDG_SESSION_DESKTOP" = "KDE" ]; then
+if [[ "$XDG_CURRENT_DESKTOP" == *"KDE"* ]]; then
   if [ -f ./qdbus ] && [ ! -x ./qdbus ]; then
     chmod +x ./qdbus
   fi
   PATH="$(pwd):$PATH:/usr/bin/"
-elif [ "$XDG_SESSION_DESKTOP" = "GNOME" ]; then
+elif [[ "$XDG_CURRENT_DESKTOP" == *"GNOME"* ]]; then
   gsettings monitor org.gnome.desktop.background picture-uri | awk -f ./bg_gnome.awk &
-elif [ "$XDG_SESSION_DESKTOP" = "XFCE" ]; then
+elif [[ "$XDG_CURRENT_DESKTOP" == *"XFCE"* ]]; then
   xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitor0/workspace0 -R -r
   xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitor0/workspace0 -m | awk -f ./bg_xfce.awk &
 fi

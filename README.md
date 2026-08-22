@@ -29,7 +29,7 @@ Alternatively run the `./fix_libs.sh` script to move all libraries that the syst
 
 5. Change the launch option in Steam to:
 ```sh
-./launch.sh; exit; %command%
+./launch.sh %command%
 ```
 
 6. Start the game via Steam or the launch script.

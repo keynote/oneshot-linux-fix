@@ -1,11 +1,14 @@
 # OneShot linux fix
 This is a small collection of scripts that are made to fix some issues with the native linux version on Steam.
 
-## Steam Flatpak
-This is known to not work when using the Flatpak package of Steam.
-You may consider installing a native package from your distribution.
+## Steam Flatpak/Snap
+This has some known incompatibilites with Flatpak and Snap, since those sandbox the application.
 
-If you don't mind not getting achievements, you can use [Goldberg Emulator](https://mr_goldberg.gitlab.io/goldberg_emulator/) to run OneShot without Steam.
+When using Flatpak you may run this command to find some files more easily.
+```sh
+flatpak --user override --filesystem=xdg-documents --filesystem=xdg-desktop com.valvesoftware.Steam
+```
+And on Snap you should find relevant files in `~/Desktop` or `~/snap/steam/common/Documents/`
 
 ## Usage
 1. Open the OneShot game directory: `Right click the game -> Manage -> Browse local files`
@@ -63,3 +66,5 @@ It now uses a separate path for each monitor, so it monitors the changes to the 
 #### GNOME
 On GNOME the darkmode background doesn't get changed, so it monitors the changes to the normal background, and change the darkmode background accordingly with an awk script.
 
+#### Flatpak/Snap
+When Steam is a Flatpak/Snap, it's unable to change the wallpaper, so it now uses the fallback of putting a file in the Desktop folder.

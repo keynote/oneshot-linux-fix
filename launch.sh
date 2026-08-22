@@ -1,9 +1,5 @@
 #!/bin/bash
 
-# was annoying me in the logs
-LD_PRELOAD_BAK="$LD_PRELOAD"
-export LD_PRELOAD=""
-
 script_dir="$(dirname "$(realpath $0)")"
 save_dir="$HOME/.local/share/Oneshot"
 documents_dir="$HOME/Documents"
@@ -12,6 +8,16 @@ cd "$script_dir"
 # file is expected to be there
 if [ ! -e ./_______.png ]; then
   cp ./images/icon.png ./_______.png
+fi
+
+if [ -n "$FLATPAK_ID" ]; then
+  pipe_dir="$HOME/.var/app/$FLATPAK_ID"
+  XDG_CURRENT_DESKTOP="DISABLED"
+elif [ -n "$SNAP_REAL_HOME" ]; then
+  pipe_dir="$SNAP_REAL_HOME"
+  XDG_CURRENT_DESKTOP="DISABLED"
+else
+  pipe_dir="$HOME"
 fi
 
 if [[ "$XDG_CURRENT_DESKTOP" =~ (Cinnamon|KDE|MATE|XFCE) ]]; then
@@ -23,7 +29,7 @@ fi
 # copied journal is missing libraries, so replace it with a script that calls the original
 while true; do
   if [ -e "$journal_path" ] && [ "$(du -b "$journal_path" | cut -f1)" -gt "100000" ]; then
-    printf '#!/bin/bash\n%s' "$script_dir/_______" > "$journal_path"
+    printf '#!/bin/bash\n%s\n%s' "HOME=$pipe_dir" "$script_dir/_______" > "$journal_path"
     chmod +x "$journal_path"
   fi
   sleep 5
@@ -44,4 +50,4 @@ fi
 
 trap 'kill -s SIGTERM $(jobs -p)' EXIT SIGINT SIGTERM
 
-LD_PRELOAD="$LD_PRELOAD_BAK" ./steamshim
+eval "${@:1:$#-1} env PATH=\"$PATH\" ./steamshim"

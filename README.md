@@ -1,8 +1,10 @@
-# OneShot linux fix
-This is a small collection of scripts that are made to fix some issues with the native linux version on Steam.
+# OneShot Linux fix
+This is a small collection of scripts that are made to fix some issues with the native Linux version on Steam.
 
 ## Steam Flatpak/Snap
-This has some known incompatibilites with Flatpak and Snap, since those sandbox the application.
+A certain feature will not work because Flatpak and Snap sandbox the application, but the game should still be completable with the fixes.
+You may consider installing a native package from your distribution for better compatibility.
+If you don't mind not having achievements, playtime, and cloud saves, you could use [Goldberg Emulator](https://mr_goldberg.gitlab.io/goldberg_emulator/) to run OneShot without Steam.
 
 When using Flatpak you may run this command to find some files more easily.
 ```sh
@@ -52,7 +54,7 @@ The script doesn't move the libSDL libraries as removing them broke the puzzle i
 The `_______.png` file is missing, which results in a error at some point, so it copies the correct image to the expected path on launch.
 
 The game also later copies the journal to the save directory and creates a desktop entry in the Documents on supported DEs, which doesn't work correctly, as the executable will be missing libraries.
-I have decided to run a loop in the `launch.sh` script that will wait for the file, and replace it with a bash script that calls the journal in the game directory.
+I have decided to run a loop in the `launch.sh` script that will wait for the file, and replace it with a bash script that calls the journal in the game directory, and also set the correct HOME path for Flatpak/Snap.
 
 ### Wallpaper
 #### KDE/Plasma

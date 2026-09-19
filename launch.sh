@@ -50,4 +50,8 @@ fi
 
 trap 'kill -s SIGTERM $(jobs -p)' EXIT SIGINT SIGTERM
 
-eval "${@:1:$#-1} env PATH=\"$PATH\" ./steamshim"
+if ( [ -n "$FLATPAK_ID" ] || [ -n "$SNAP" ] ) && [ $# -gt 0 ]; then
+  $@
+else
+  ./steamshim
+fi
